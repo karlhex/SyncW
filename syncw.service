@@ -1,0 +1,14 @@
+[Unit]
+Description=Sync Wait Service
+After=network.target
+
+[Service]
+Type=simple
+User=karl
+Restart=on-failure
+RestartSec=5s
+ExecStart=sh /opt/soft/SyncW/syncwrun.sh -config /opt/soft/SyncW/syncw.ini
+ExecReload=kill -3 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

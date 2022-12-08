@@ -1,0 +1,45 @@
+#+title: Synchronize tool using unison and inotify
+
+* About
+SyncW is a tool that using unison and inotify to synchronize files with local and remote site, it will start two process, one monitor local files and directory and another monitor remote site. When anything is changed, created or deleted in the specific directory, a unison process would be called to synchronize the files.
+A systemd service is provided, you can start the process on system starting.
+
+* Installation
+SyncW is a shell program, you just need git clone the files into /opt/soft/SyncW
+#+begin_src shell
+git clone https://github.com/karlhex/SyncW.git /opt/src/SyncW
+#+end_src
+
+Configure the local and remote directory in syncw.ini file
+#+begin_src ini
+[local]
+dir = ~/WorkSpace
+
+[remote]
+host = karl@karlhex.xyz
+dir = WorkSpace
+#+end_src
+
+If you want to start the process in systemd, we provided the service file, you can put the syncw.service file into ~/.local/share/systemd/user, then enable the service.
+#+begin_src shell
+systemctl --user enable syncw.service
+systemctl --user start syncw.service
+#+end_src
+
+
+* Command line usage
+You can start the process in command line,
+#+begin_quote
+Usage: syncwrun [options]
+
+Options:
+  -config configfile     : get configuration from file
+  -localdir localdir     : set local directory
+  -remotedir remotedir   : set remote directory
+  -remotehost remotehost : set remote host
+  -help                  : show this message
+  -version               : show version
+#+end_quote
+
+* Dependancy
+You need to install unison and inotify first and put program into PATH
